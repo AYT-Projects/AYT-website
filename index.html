@@ -1,3 +1,5 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AYT</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -273,7 +275,76 @@
   footer .foot-links{ display:flex; gap:18px; }
   footer .foot-links a{ font-size:0.85rem; color:var(--ink-faint); text-decoration:none; }
   footer .foot-links a:hover{ color:var(--ink); }
+
+  /* ---- First product launch popup ---- */
+  .popup-overlay{
+    position:fixed; inset:0; z-index:1000;
+    display:flex; align-items:center; justify-content:center;
+    padding:20px;
+    background:rgba(25,29,33,0.55);
+    backdrop-filter:saturate(120%) blur(2px);
+    opacity:0; visibility:hidden;
+    transition:opacity .25s ease, visibility .25s ease;
+  }
+  .popup-overlay.open{ opacity:1; visibility:visible; }
+  .popup-card{
+    position:relative;
+    width:100%; max-width:440px;
+    background:var(--paper-raised);
+    border:1px solid var(--border);
+    border-radius:16px;
+    box-shadow:var(--shadow);
+    padding:40px 34px 34px;
+    text-align:center;
+    transform:translateY(12px) scale(.98);
+    transition:transform .25s ease;
+  }
+  .popup-overlay.open .popup-card{ transform:translateY(0) scale(1); }
+  .popup-eyebrow{
+    font-family:'JetBrains Mono', ui-monospace, monospace;
+    font-size:12px; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--accent);
+    margin:0 0 12px;
+  }
+  .popup-title{
+    font-family:'Archivo Black', system-ui, sans-serif;
+    font-size:30px; line-height:1.15;
+    color:var(--ink);
+    margin:0 0 12px;
+  }
+  .popup-text{
+    font-family:'Work Sans', system-ui, sans-serif;
+    font-size:15px; line-height:1.55;
+    color:var(--ink-dim);
+    margin:0;
+  }
+  .popup-close{
+    position:absolute; top:14px; right:14px;
+    width:36px; height:36px;
+    display:flex; align-items:center; justify-content:center;
+    border:1px solid var(--border);
+    border-radius:50%;
+    background:var(--paper-sunk);
+    color:var(--ink-dim);
+    font-size:20px; line-height:1;
+    cursor:pointer;
+    transition:background .15s ease, color .15s ease, border-color .15s ease;
+  }
+  .popup-close:hover{ background:var(--accent-soft); color:var(--accent-ink); border-color:var(--accent); }
+  @media (max-width:480px){
+    .popup-card{ padding:36px 22px 26px; }
+    .popup-title{ font-size:25px; }
+  }
 </style>
+
+<div class="popup-overlay" id="launchPopup" role="dialog" aria-modal="true" aria-labelledby="launchPopupTitle">
+  <div class="popup-card">
+    <button class="popup-close" id="launchPopupClose" type="button" aria-label="Close">&times;</button>
+    <p class="popup-eyebrow">Coming soon</p>
+    <h2 class="popup-title" id="launchPopupTitle">First Product Launching</h2>
+    <p class="popup-text">We're excited to unveil our very first product. Stay tuned — something new is on its way.</p>
+  </div>
+</div>
 
 <header class="nav">
   <div class="nav-inner">
@@ -538,6 +609,19 @@
 
 <script>
   (function(){
+    // ---- First product launch popup ----
+    var launchPopup = document.getElementById('launchPopup');
+    if(launchPopup){
+      var closeLaunch = function(){ launchPopup.classList.remove('open'); };
+      // Show on entry
+      window.setTimeout(function(){ launchPopup.classList.add('open'); }, 400);
+      var closeBtn = document.getElementById('launchPopupClose');
+      if(closeBtn){ closeBtn.addEventListener('click', closeLaunch); }
+      // Close on backdrop click or Escape
+      launchPopup.addEventListener('click', function(e){ if(e.target === launchPopup){ closeLaunch(); } });
+      document.addEventListener('keydown', function(e){ if(e.key === 'Escape'){ closeLaunch(); } });
+    }
+
     // ---- AI visibility check widget (illustrative preview, not a live query) ----
     var form = document.getElementById('vizForm');
     var input = document.getElementById('vizInput');

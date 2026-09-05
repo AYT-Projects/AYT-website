@@ -1,10 +1,12 @@
 # AYT — Landing Page
 
-First-draft marketing site for **AYT Service**, built around the AYT logo. Single self-contained HTML file — no build step, no dependencies to install.
+First-draft marketing site for **AYT Service**, built around the AYT logo. Static HTML + CSS — no build step, no dependencies to install.
 
 ## What's here
 
-- `index.html` — the full landing page (styles, fonts, and the logo are all inlined, so this one file is the whole site)
+- `index.html` — the full landing page (styles and JS are inlined)
+- `assets/` — the logo files (`logo.png`, `logo-lockup.png`), referenced by the page, the favicon, and the social-share preview
+- `CNAME` — custom domain config for GitHub Pages (`aytservice.com`)
 
 ## Preview locally
 
